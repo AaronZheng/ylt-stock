@@ -6,4 +6,10 @@
   <packaging>pom</packaging>
   <name>ylt-stock</name>
   <description>ylt-stock</description>
+  <modules>
+    <module>common/ylt-common</module>
+    <module>common/ylt-parent</module>
+    <module>schedule/ylt-spider</module>
+    <module>schedule/ylt-worker</module>
+  </modules>
 </project>
