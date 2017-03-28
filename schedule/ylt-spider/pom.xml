@@ -13,7 +13,14 @@
   <description>ylt-spider</description>
   
   <dependencies>
-    <dependency>
+  
+        <dependency>
+	       <groupId>ylt-common</groupId>
+	       <artifactId>ylt-common</artifactId>
+	       <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+    
+        <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 		</dependency>
