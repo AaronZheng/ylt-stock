@@ -1,4 +1,4 @@
-package spider.ylt.com.service;
+package com.spider.ylt.service;
 
 public interface IDataCollectService {
 	
