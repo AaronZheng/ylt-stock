@@ -207,7 +207,8 @@ public class SchedulerConf {
         this.schedulerRegisterResult = schedulerRegisterResult;
     }
 
-    public <T> T loadRespBean(String respBean,Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+	public <T> T loadRespBean(String respBean,Class<T> clazz) {
 
         if(StringUtils.isBlank(respBean))
             return null;

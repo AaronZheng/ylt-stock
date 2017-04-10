@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spider.ylt.dao.StockDayInfoDao">
+
+    <resultMap id="stockDayInfo" type="com.spider.ylt.model.StockDayInfo">
+        <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
+        <result column="OPEN_PLATE_PRICE" property="openPlatePrice" jdbcType="DOUBLE"/>
+        <result column="CLOSE_PLATE_PRICE" property="closePlatePrice" jdbcType="DOUBLE"/>
+        <result column="Y_CLOSE_PLATE_PRICE" property="yClosePlatePrice" jdbcType="DOUBLE"/>
+        <result column="MAX_PRICE" property="maxPrice" jdbcType="DOUBLE"/>
+        <result column="LOW_PRICE" property="lowPrice" jdbcType="DOUBLE"/>
+        <result column="DEAL_STOCK_NUM" property="dealStockNum" jdbcType="INTEGER"/>
+        <result column="DEAL_STOCK_PRICE" property="dealStockPrice" jdbcType="INTEGER"/>
+        <result column="K_PICTURE" property="kPicture" jdbcType="VARCHAR"/>
+        <result column="T_PICTURE" property="tPicture" jdbcType="VARCHAR"/>
+        <result column="LRRQ" property="lrrq" jdbcType="TIMESTAMP"/>
+        <result column="XGRQ" property="xgrq" jdbcType="TIMESTAMP"/>
+        <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+    <select id=""></select>
+
+
+</mapper>

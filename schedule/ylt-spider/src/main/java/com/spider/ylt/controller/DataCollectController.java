@@ -12,5 +12,10 @@ public class DataCollectController {
 	public String initPage(){
 		return "index";
 	}
+	
+	
+	
+	
+	
 
 }

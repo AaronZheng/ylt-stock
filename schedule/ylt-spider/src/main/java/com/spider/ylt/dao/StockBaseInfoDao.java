@@ -2,6 +2,11 @@ package com.spider.ylt.dao;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
+import com.spider.ylt.model.StockInfo;
+
+@Resource
 public interface StockBaseInfoDao {
 	
 	
@@ -10,7 +15,7 @@ public interface StockBaseInfoDao {
 	 * 
 	 * @return
 	 */
-	List<String> getStockCode();
+	List<StockInfo> queryStockInfo();
 	
 	
 

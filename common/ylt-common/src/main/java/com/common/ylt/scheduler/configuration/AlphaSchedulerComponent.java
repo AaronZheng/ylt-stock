@@ -53,7 +53,7 @@ public class AlphaSchedulerComponent {
 		SchedulerConf.getSchedulerConfInstance().setTempBean(properties.getProperty("confBean"));
 		SchedulerConf.getSchedulerConfInstance().setResultHandler(properties.getProperty("responseClass") == null ? null : (ISchedulerExecuteResult) Class.forName(properties.getProperty("responseClass")).newInstance());
 		SchedulerConf.getSchedulerConfInstance().setTempRespBean(properties.getProperty("responseBean"));
-		SchedulerConf.getSchedulerConfInstance().setClusterPattern(properties.getProperty("clusterPattern") == null ? true : Boolean.parseBoolean(properties.getProperty("clusterPattern")));
+		SchedulerConf.getSchedulerConfInstance().setClusterPattern(properties.getProperty("clusterPattern") == null ? false : Boolean.parseBoolean(properties.getProperty("clusterPattern")));
 		SchedulerConf.getSchedulerConfInstance().setSchedulerRegisterResult(properties.getProperty("taskRegisterResultClass") == null ? null :(ISchedulerRegisterResult) Class.forName(properties.getProperty("taskRegisterResultClass")).newInstance());
 		SchedulerConf.getSchedulerConfInstance().setTempResultRegisterBean(properties.getProperty("taskRegisterResultBean"));
 

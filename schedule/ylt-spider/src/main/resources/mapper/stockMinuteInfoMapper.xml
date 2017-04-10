@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.spider.ylt.dao.StockMinuteInfoDao">
+
+    <resultMap id="stockMinuteInfo" type="com.spider.ylt.model.StockMinuteInfo">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
+        <result column="STOCK_PRICE" property="stockPrice" jdbcType="DOUBLE"/>
+        <result column="BUY_ONE_PRICE" property="buyOnePrice" jdbcType="DOUBLE"/>
+        <result column="BUY_TOW_PRICE" property="buyTowPrice" jdbcType="DOUBLE"/>
+        <result column="BUY_THREE_PRICE" property="buyThreePrice" jdbcType="DOUBLE"/>
+        <result column="BUY_FOUR_PRICE" property="buyFourPrice" jdbcType="DOUBLE"/>
+        <result column="BUY_FIVE_PRICE" property="buyFivePrice" jdbcType="DOUBLE"/>
+        <result column="BUY_ONE_NUM" property="buyOneNum" jdbcType="INTEGER"/>
+        <result column="BUY_TOW_NUM" property="buyTowNum" jdbcType="INTEGER"/>
+        <result column="BUY_THREE_NUM" property="buyThreeNum" jdbcType="INTEGER"/>
+        <result column="BUY_FOUR_NUM" property="buyFourNum" jdbcType="INTEGER"/>
+        <result column="BUY_FIVE_NUM" property="buyFiveNum" jdbcType="INTEGER"/>
+        <result column="SALE_ONE_PRICE" property="saleOnePrice" jdbcType="DOUBLE"/>
+        <result column="SALE_TOW_PRICE" property="saleTowPrice" jdbcType="DOUBLE"/>
+        <result column="SALE_THREE_PRICE" property="saleThreePrice" jdbcType="DOUBLE"/>
+        <result column="SALE_FOUR_PRICE" property="saleFourPrice" jdbcType="DOUBLE"/>
+        <result column="SALE_FIVE_PRICE" property="saleFivePrice" jdbcType="DOUBLE"/>
+        <result column="SALE_ONE_NUM" property="saleOneNum" jdbcType="INTEGER"/>
+        <result column="SALE_TOW_NUM" property="saleTowNum" jdbcType="INTEGER"/>
+        <result column="SALE_THREE_NUM" property="saleThreeNum" jdbcType="INTEGER"/>
+        <result column="SALE_FOUR_NUM" property="saleFourNum" jdbcType="INTEGER"/>
+        <result column="SALE_FIVE_NUM" property="saleFiveNum" jdbcType="INTEGER"/>
+        <result column="TRADE_NUM" property="tradeNum" jdbcType="INTEGER"/>
+        <result column="TRADE_PRICE" property="tradePrice" jdbcType="INTEGER"/>
+        <result column="TRADE_TIME" property="tradeTime" jdbcType="VARCHAR"/>
+        <result column="LRRQ" property="lrrq" jdbcType="TIMESTAMP"/>
+        <result column="XGRQ" property="xgrq" jdbcType="TIMESTAMP"/>
+        <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
+    </resultMap>
+    
+   <!-- <insert id="saveStockMinuteInfo" parameterType="com.spider.ylt.model.StockMinuteInfo">
+       insert into STOCK_MINUTE_INFO(
+	       ID,
+	        STOCK_CODE,
+	       STOCK_PRICE,
+	       
+	       BUY_ONE_PRICE,
+	       BUY_TOW_PRICE,
+	       BUY_THREE_PRICE,
+	       BUY_FOUR_PRICE,
+	       BUY_FIVE_PRICE,
+	       
+	        BUY_ONE_NUM,
+	       BUY_TOW_NUM,
+	       BUY_THREE_NUM,
+	       BUY_FOUR_NUM,
+	       BUY_FIVE_NUM
+       ) values(
+	       #{id},
+	        #{stockCode},
+	       #{stockPrice},
+	       
+	       #{buyOnePrice},
+	       #{buyTowPrice},
+	       #{buyThreePrice},
+	       #{buyFourPrice},
+	       #{buyFivePrice},
+	       
+	       #{buyOneNum},
+	       #{buyTowNum},
+	       #{buyThreeNum},
+	       #{buyFourNum},
+	       #{buyFiveNum}
+       )
+    </insert> -->
+    
+    <insert id="saveStockMinuteInfo" parameterType="com.spider.ylt.model.StockMinuteInfo">
+       insert into STOCK_MINUTE_INFO(
+	       ID,
+	       STOCK_CODE,
+	       STOCK_PRICE,
+	       BUY_ONE_PRICE,
+	       BUY_TOW_PRICE,
+	       BUY_THREE_PRICE,
+	       BUY_FOUR_PRICE,
+	       BUY_FIVE_PRICE,
+	       BUY_ONE_NUM,
+	       BUY_TOW_NUM,
+	       BUY_THREE_NUM,
+	       BUY_FOUR_NUM,
+	       BUY_FIVE_NUM,
+	       SALE_ONE_PRICE,
+	       SALE_TOW_PRICE,
+	       SALE_THREE_PRICE,
+	       SALE_FOUR_PRICE,
+	       SALE_FIVE_PRICE,
+	       SALE_ONE_NUM,
+	       SALE_TOW_NUM,
+	       SALE_THREE_NUM,
+	       SALE_FOUR_NUM,
+	       SALE_FIVE_NUM,
+	       TRADE_NUM,
+	       TRADE_PRICE,
+	       TRADE_TIME,
+	       LRRQ,
+           YXBJ
+       ) values(
+	       #{id},
+	       #{stockCode},
+	       #{stockPrice},
+	       #{buyOnePrice},
+	       #{buyTowPrice},
+	       #{buyThreePrice},
+	       #{buyFourPrice},
+	       #{buyFivePrice},
+	       #{buyOneNum},
+	       #{buyTowNum},
+	       #{buyThreeNum},
+	       #{buyFourNum},
+	       #{buyFiveNum},
+	       #{saleOnePrice},
+	       #{saleTowPrice},
+	       #{saleThreePrice},
+	       #{saleFourPrice},
+	       #{saleFivePrice},
+	       #{saleOneNum},
+	       #{saleTowNum},
+	       #{saleThreeNum},
+	       #{saleFourNum},
+	       #{saleFiveNum},
+	       #{tradeNum},
+	       #{tradePrice},
+	       #{tradeTime},
+	       #{lrrq},
+	       #{yxbj}
+       )
+    </insert>
+
+</mapper>

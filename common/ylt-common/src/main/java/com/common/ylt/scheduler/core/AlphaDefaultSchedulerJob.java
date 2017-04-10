@@ -47,9 +47,10 @@ public class AlphaDefaultSchedulerJob extends AbsAlphaSchedulerJob {
 			((AbsSchedulerBridging) SchedulerHandlerUtil.schedulerBridging).registerJob(task);
 		}else{
 			SchedulerExecuteResult result = localPattern(param);
-			result.setTaskId((String)param.get(Constant.JOB_NAME));
-			if(SchedulerConf.getSchedulerConfInstance().getResultHandler() != null)
+			if(SchedulerConf.getSchedulerConfInstance().getResultHandler() != null){
+				result.setTaskId((String)param.get(Constant.JOB_NAME));
 				callback(result);
+			}
 		}
 	}
 

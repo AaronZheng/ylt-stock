@@ -27,7 +27,6 @@ public abstract class AbsThreadManager implements IThreadManager {
         String threadName = UUID.randomUUID().toString().replace("-", "");
         for(int i = 0;i < size ;i ++ ) {
             threadMap.put(threadName, new SchedulerThread(threadName,new Runnable() {
-                private String threadName;
 
                 @Override
                 public void run() {
@@ -39,7 +38,6 @@ public abstract class AbsThreadManager implements IThreadManager {
                 }
 
                 public Runnable setThreadName(String threadName) {
-                    this.threadName = threadName;
                     return this;
                 }
             }.setThreadName(threadName)).startWorker());

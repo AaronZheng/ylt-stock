@@ -11,18 +11,31 @@
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">    
      <!-- 自动扫描 -->  
     <context:component-scan base-package="spider.ylt.com.service.impl" />  
-    <!-- 引入配置文件 -->  
+<!--     引入配置文件  
     <bean id="propertyConfigurer"  
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:jdbc.properties" />  
+        <property name="location" value="classpath:resouce.properties" />  
     </bean>  
+     -->
+     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:jdbc.properties</value>
+                <value>classpath:resouce.properties</value>
+                <value>classpath:scheduler.properties</value>
+            </list>
+        </property>
+    </bean>
   
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  
         destroy-method="close">  
         <property name="driverClassName" value="${driver}" />  
         <property name="url" value="${url}" />  
-        <property name="username" value="${username}" />  
-        <property name="password" value="${password}" />  
+        <property name="username" value="${uname}" />  
+        <property name="password" value="${passwd}" />  
         
         <!-- 配置连接池的初始值 -->
         <property name="initialSize" value="1" />
@@ -46,7 +59,7 @@
   
     <!-- DAO接口所在包名，Spring会自动查找其下的类 -->  
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">  
-        <property name="basePackage" value="cn.wallance.dao" />  
+        <property name="basePackage" value="com.spider.ylt.dao" />  
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>  
     </bean>  
   

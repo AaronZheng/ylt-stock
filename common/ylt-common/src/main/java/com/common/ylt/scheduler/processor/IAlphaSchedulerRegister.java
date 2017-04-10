@@ -29,7 +29,7 @@ public interface IAlphaSchedulerRegister {
 	 * @throws com.common.ylt.scheduler.exception.SchedulerException 
 	 */
 	boolean registerSchedulerByBeanName(String serviceName, String timerExpression, Integer times,
-										   Date startAt, Date endAt, int policy, String jobName, Map<Object, Object> args) throws SchedulerException, com.common.ylt.scheduler.exception.SchedulerException;
+										   Date startAt, Date endAt, String jobName, Map<Object, Object> args) throws SchedulerException, com.common.ylt.scheduler.exception.SchedulerException;
 	
 	
 	/**
