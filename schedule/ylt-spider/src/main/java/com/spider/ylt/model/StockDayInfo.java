@@ -6,9 +6,9 @@ import java.util.Date;
 public class StockDayInfo implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	  
+	private String id;
 	private String stockCode;
-	private double  openPlatePrice;
+	private double openPlatePrice;
 	private double closePlatePrice;
 	private double yClosePlatePrice;
 	private double maxPrice;
@@ -22,6 +22,12 @@ public class StockDayInfo implements Serializable{
 	private String yxbj;
 	
 	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getStockCode() {
 		return stockCode;
 	}

@@ -3,6 +3,7 @@
 <mapper namespace="com.spider.ylt.dao.StockDayInfoDao">
 
     <resultMap id="stockDayInfo" type="com.spider.ylt.model.StockDayInfo">
+        <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
         <result column="OPEN_PLATE_PRICE" property="openPlatePrice" jdbcType="DOUBLE"/>
         <result column="CLOSE_PLATE_PRICE" property="closePlatePrice" jdbcType="DOUBLE"/>
@@ -18,7 +19,25 @@
         <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
     </resultMap>
     
-    <select id=""></select>
+    <insert id="saveStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
+    
+        insert into stock_day_Info(ID,STOCK_CODE,OPEN_PLATE_PRICE,CLOSE_PLATE_PRICE,
+	                   Y_CLOSE_PLATE_PRICE,MAX_PRICE,LOW_PRICE,DEAL_STOCK_NUM,
+	                   DEAL_STOCK_PRICE,LRRQ,YXBJ)
+                   values(#{id},#{stockCode},#{openPlatePrice},#{closePlatePrice},
+                          #{yClosePlatePrice},#{maxPrice},#{lowPrice},#{dealStockNum},#{dealStockPrice},#{lrrq},#{yxbj})
+    </insert>
+    
+    <update id="updateStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
+       update stock_day_Info set 
+	               CLOSE_PLATE_PRICE = #{closePlatePrice},
+	               MAX_PRICE = #{maxPrice},
+	               LOW_PRICE = #{lowPrice},
+	               DEAL_STOCK_NUM = #{dealStockNum},
+	               DEAL_STOCK_PRICE = #{dealStockPrice},
+	               XGRQ = #{xgrq}
+               where id = #{id}
+    </update>
 
 
 </mapper>

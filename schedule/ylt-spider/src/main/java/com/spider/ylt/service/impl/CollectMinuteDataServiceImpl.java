@@ -13,7 +13,9 @@ import com.common.ylt.cache.KeyGenerator;
 import com.common.ylt.net.NetHandler;
 import com.common.ylt.scheduler.processor.ISchedulerTask;
 import com.common.ylt.util.Sequeuce;
+import com.spider.ylt.dao.StockDayInfoDao;
 import com.spider.ylt.dao.StockMinuteInfoDao;
+import com.spider.ylt.model.StockDayInfo;
 import com.spider.ylt.model.StockInfo;
 import com.spider.ylt.model.StockMinuteInfo;
 
@@ -23,11 +25,143 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 	@Value("${realTimeUrl}")
 	private String realTimeUrl;
 	private String timeStamp;
+	private Double openPlatePrice;
+	private Double closePlatePrice;
+	private Double yClosePlatePrice;
+	private Double maxPrice;
+	private Double lowPrice;
+	private String dayId;
 	@Autowired
 	private StockMinuteInfoDao stockMinuteInfoDao;
+	@Autowired
+	private StockDayInfoDao stockDayInfoDao;
 	
 	
 	private void saveTradeData(String stockCode,String[] content){
+		
+		StockMinuteInfo stockMinuteInfo = generateStockMinuteInfo(stockCode,content);
+		if(stockMinuteInfo == null)
+			return ;
+		
+		if(StringUtils.isBlank(dayId)){
+			openPlateDataHandler(stockMinuteInfo,content);
+		}
+		
+		if(StringUtils.isBlank(timeStamp) || !timeStamp.equals(stockMinuteInfo.getTradeTime())){
+			timeStamp = stockMinuteInfo.getTradeTime();
+			
+			if(maxPrice == null || lowPrice == null ||
+					maxPrice < Double.parseDouble(content[4]) || lowPrice > Double.parseDouble(content[5])){
+				middlePlateDataHandler(stockMinuteInfo,content);
+			}
+			
+			stockMinuteInfoDao.saveStockMinuteInfo(stockMinuteInfo);
+		}else{
+			if(closePlatePrice != null)
+				return;
+			closePlatePrice = stockMinuteInfo.getStockPrice();
+			closePlateDataHandler(stockMinuteInfo,content);
+		}
+	}
+	
+
+	
+	private void openPlateDataHandler(StockMinuteInfo stockMinuteInfo,String[] content){
+		dayId = Sequeuce.genereateRandomStr();
+		StockDayInfo stockDayInfo = new StockDayInfo();
+		stockDayInfo.setId(dayId);
+		stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
+		if(openPlatePrice == null){
+			openPlatePrice = Double.parseDouble(content[1]);
+		}
+		stockDayInfo.setOpenPlatePrice(openPlatePrice);
+		if(yClosePlatePrice == null){
+			yClosePlatePrice = Double.parseDouble(content[2]);
+		}
+		stockDayInfo.setyClosePlatePrice(yClosePlatePrice);
+		if(maxPrice == null || maxPrice < Double.parseDouble(content[4])){
+			maxPrice = Double.parseDouble(content[4]);
+		}
+		stockDayInfo.setMaxPrice(maxPrice);
+		if(lowPrice == null || lowPrice > Double.parseDouble(content[5])){
+			lowPrice = Double.parseDouble(content[5]);
+		}
+		stockDayInfo.setLowPrice(lowPrice);
+		stockDayInfo.setDealStockNum(stockMinuteInfo.getTradeNum());
+		stockDayInfo.setDealStockPrice(stockMinuteInfo.getTradePrice());
+		stockDayInfo.setLrrq(new Date());
+		stockDayInfo.setYxbj("1");
+		stockDayInfoDao.saveStockDayInfo(stockDayInfo);
+	}
+	
+	
+	private void closePlateDataHandler(StockMinuteInfo stockMinuteInfo,String[] content){
+		StockDayInfo stockDayInfo = new StockDayInfo();
+		stockDayInfo.setId(dayId);
+		stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
+		if(openPlatePrice == null){
+			openPlatePrice = Double.parseDouble(content[1]);
+		}
+		stockDayInfo.setOpenPlatePrice(openPlatePrice);
+		if(closePlatePrice == null){
+			closePlatePrice = stockMinuteInfo.getStockPrice();
+		}
+		stockDayInfo.setClosePlatePrice(closePlatePrice);
+		if(yClosePlatePrice == null){
+			yClosePlatePrice = Double.parseDouble(content[2]);
+		}
+		stockDayInfo.setyClosePlatePrice(yClosePlatePrice);
+		if(maxPrice == null || maxPrice < Double.parseDouble(content[4])){
+			maxPrice = Double.parseDouble(content[4]);
+		}
+		stockDayInfo.setMaxPrice(maxPrice);
+		if(lowPrice == null || lowPrice > Double.parseDouble(content[5])){
+			lowPrice = Double.parseDouble(content[5]);
+		}
+		stockDayInfo.setLowPrice(lowPrice);
+		stockDayInfo.setDealStockNum(stockMinuteInfo.getTradeNum());
+		stockDayInfo.setDealStockPrice(stockMinuteInfo.getTradePrice());
+		stockDayInfo.setXgrq(new Date());
+		stockDayInfo.setYxbj("1");
+		stockDayInfoDao.updateStockDayInfo(stockDayInfo);
+	}
+	
+	
+	private void middlePlateDataHandler(StockMinuteInfo stockMinuteInfo,String[] content){
+		
+		StockDayInfo stockDayInfo = new StockDayInfo();
+		stockDayInfo.setId(dayId);
+		stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
+		if(openPlatePrice == null){
+			openPlatePrice = Double.parseDouble(content[1]);
+		}
+		stockDayInfo.setOpenPlatePrice(openPlatePrice);
+		if(yClosePlatePrice == null){
+			yClosePlatePrice = Double.parseDouble(content[2]);
+		}
+		stockDayInfo.setyClosePlatePrice(yClosePlatePrice);
+		if(maxPrice == null || maxPrice < Double.parseDouble(content[4])){
+			maxPrice = Double.parseDouble(content[4]);
+		}
+		stockDayInfo.setMaxPrice(maxPrice);
+		if(lowPrice == null || lowPrice > Double.parseDouble(content[5])){
+			lowPrice = Double.parseDouble(content[5]);
+		}
+		stockDayInfo.setLowPrice(lowPrice);
+		stockDayInfo.setDealStockNum(stockMinuteInfo.getTradeNum());
+		stockDayInfo.setDealStockPrice(stockMinuteInfo.getTradePrice());
+		stockDayInfo.setXgrq(new Date());
+		stockDayInfo.setYxbj("1");
+		stockDayInfoDao.updateStockDayInfo(stockDayInfo);
+		
+	}
+	
+	
+	
+	private StockMinuteInfo generateStockMinuteInfo(String stockCode,String[] content){
+		
+		if(content.length <1)
+			return null;
 		
 		StockMinuteInfo stockMinuteInfo = new StockMinuteInfo();
 		stockMinuteInfo.setId(Sequeuce.genereateRandomStr());
@@ -58,11 +192,7 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 		stockMinuteInfo.setTradeTime(content[30]+" "+content[31]);
 		stockMinuteInfo.setLrrq(new Date());
 		stockMinuteInfo.setYxbj("1");
-		if(StringUtils.isBlank(timeStamp) || !timeStamp.equals(stockMinuteInfo.getTradeTime())){
-			timeStamp = stockMinuteInfo.getTradeTime();
-			stockMinuteInfoDao.saveStockMinuteInfo(stockMinuteInfo);
-		}
-
+		return stockMinuteInfo;
 	}
 	
 	private String generateUrl(String stockCode,String blockId){
