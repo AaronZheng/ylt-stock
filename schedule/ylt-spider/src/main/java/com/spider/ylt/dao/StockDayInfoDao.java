@@ -1,5 +1,7 @@
 package com.spider.ylt.dao;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.spider.ylt.model.StockDayInfo;
 
 public interface StockDayInfoDao {
@@ -16,6 +18,13 @@ public interface StockDayInfoDao {
 	 * @param stockDayInfo
 	 */
 	void updateStockDayInfo(StockDayInfo stockDayInfo);
+	
+	/**
+	 * 
+	 * @param stockCode
+	 * @param tradeTime
+	 */
+	StockDayInfo queryStockDayInfo(@Param("stockCode")String stockCode,@Param("tradeTime")String tradeTime);
 	
 
 }

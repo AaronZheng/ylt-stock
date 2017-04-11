@@ -15,6 +15,7 @@ public class StockDayInfo implements Serializable{
 	private double lowPrice;
 	private double dealStockNum;
 	private double dealStockPrice;
+	private String tradeTime;
 	private String kPicture;
 	private String tPicture;
 	private Date lrrq;
@@ -60,6 +61,13 @@ public class StockDayInfo implements Serializable{
 	}
 	public double getLowPrice() {
 		return lowPrice;
+	}
+	
+	public String getTradeTime() {
+		return tradeTime;
+	}
+	public void setTradeTime(String tradeTime) {
+		this.tradeTime = tradeTime;
 	}
 	public void setLowPrice(double lowPrice) {
 		this.lowPrice = lowPrice;

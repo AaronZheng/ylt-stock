@@ -29,6 +29,7 @@
         <result column="TRADE_NUM" property="tradeNum" jdbcType="INTEGER"/>
         <result column="TRADE_PRICE" property="tradePrice" jdbcType="INTEGER"/>
         <result column="TRADE_TIME" property="tradeTime" jdbcType="VARCHAR"/>
+        <result column="COLLECT_TIME" property="collectTime" jdbcType="TIMESTAMP"/>
         <result column="LRRQ" property="lrrq" jdbcType="TIMESTAMP"/>
         <result column="XGRQ" property="xgrq" jdbcType="TIMESTAMP"/>
         <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
@@ -98,6 +99,7 @@
 	       TRADE_NUM,
 	       TRADE_PRICE,
 	       TRADE_TIME,
+	       COLLECT_TIME,
 	       LRRQ,
            YXBJ
        ) values(
@@ -127,6 +129,7 @@
 	       #{tradeNum},
 	       #{tradePrice},
 	       #{tradeTime},
+	       #{collectTime},
 	       #{lrrq},
 	       #{yxbj}
        )

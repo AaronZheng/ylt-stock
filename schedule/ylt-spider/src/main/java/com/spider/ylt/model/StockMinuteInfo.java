@@ -33,11 +33,10 @@ public class StockMinuteInfo implements Serializable{
 	private Integer tradeNum;
 	private Long tradePrice;
 	private String tradeTime;
+	private Date collectTime;
 	private Date lrrq;
 	private Date xgrq;
 	private String yxbj;
-	
-	
 	
 	
 	public String getId() {
@@ -184,8 +183,6 @@ public class StockMinuteInfo implements Serializable{
 	public void setTradeNum(Integer tradeNum) {
 		this.tradeNum = tradeNum;
 	}
-
-	
 	public Long getTradePrice() {
 		return tradePrice;
 	}
@@ -197,6 +194,13 @@ public class StockMinuteInfo implements Serializable{
 	}
 	public void setTradeTime(String tradeTime) {
 		this.tradeTime = tradeTime;
+	}
+	
+	public Date getCollectTime() {
+		return collectTime;
+	}
+	public void setCollectTime(Date collectTime) {
+		this.collectTime = collectTime;
 	}
 	public Date getLrrq() {
 		return lrrq;
@@ -216,5 +220,18 @@ public class StockMinuteInfo implements Serializable{
 	public void setYxbj(String yxbj) {
 		this.yxbj = yxbj;
 	}
-
+	@Override
+	public String toString() {
+		return "StockMinuteInfo [id=" + id + ", stockCode=" + stockCode + ", stockPrice=" + stockPrice
+				+ ", buyOnePrice=" + buyOnePrice + ", buyTowPrice=" + buyTowPrice + ", buyThreePrice=" + buyThreePrice
+				+ ", buyFourPrice=" + buyFourPrice + ", buyFivePrice=" + buyFivePrice + ", buyOneNum=" + buyOneNum
+				+ ", buyTowNum=" + buyTowNum + ", buyThreeNum=" + buyThreeNum + ", buyFourNum=" + buyFourNum
+				+ ", buyFiveNum=" + buyFiveNum + ", saleOnePrice=" + saleOnePrice + ", saleTowPrice=" + saleTowPrice
+				+ ", saleThreePrice=" + saleThreePrice + ", saleFourPrice=" + saleFourPrice + ", saleFivePrice="
+				+ saleFivePrice + ", saleOneNum=" + saleOneNum + ", saleTowNum=" + saleTowNum + ", saleThreeNum="
+				+ saleThreeNum + ", saleFourNum=" + saleFourNum + ", saleFiveNum=" + saleFiveNum + ", tradeNum="
+				+ tradeNum + ", tradePrice=" + tradePrice + ", tradeTime=" + tradeTime + ", collectTime=" + collectTime
+				+ ", lrrq=" + lrrq + ", xgrq=" + xgrq + ", yxbj=" + yxbj + "]";
+	}
+	
 }

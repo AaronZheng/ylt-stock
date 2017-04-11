@@ -14,6 +14,7 @@
         <result column="DEAL_STOCK_PRICE" property="dealStockPrice" jdbcType="INTEGER"/>
         <result column="K_PICTURE" property="kPicture" jdbcType="VARCHAR"/>
         <result column="T_PICTURE" property="tPicture" jdbcType="VARCHAR"/>
+        <result column="TRADE_TIME" property="tradeTime" jdbcType="VARCHAR"/>
         <result column="LRRQ" property="lrrq" jdbcType="TIMESTAMP"/>
         <result column="XGRQ" property="xgrq" jdbcType="TIMESTAMP"/>
         <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
@@ -22,10 +23,10 @@
     <insert id="saveStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
     
         insert into stock_day_Info(ID,STOCK_CODE,OPEN_PLATE_PRICE,CLOSE_PLATE_PRICE,
-	                   Y_CLOSE_PLATE_PRICE,MAX_PRICE,LOW_PRICE,DEAL_STOCK_NUM,
-	                   DEAL_STOCK_PRICE,LRRQ,YXBJ)
+		                   Y_CLOSE_PLATE_PRICE,MAX_PRICE,LOW_PRICE,DEAL_STOCK_NUM,
+		                   DEAL_STOCK_PRICE,TRADE_TIME,LRRQ,YXBJ)
                    values(#{id},#{stockCode},#{openPlatePrice},#{closePlatePrice},
-                          #{yClosePlatePrice},#{maxPrice},#{lowPrice},#{dealStockNum},#{dealStockPrice},#{lrrq},#{yxbj})
+                          #{yClosePlatePrice},#{maxPrice},#{lowPrice},#{dealStockNum},#{dealStockPrice},#{tradeTime},#{lrrq},#{yxbj})
     </insert>
     
     <update id="updateStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
@@ -38,6 +39,10 @@
 	               XGRQ = #{xgrq}
                where id = #{id}
     </update>
+    
+    <select id="queryStockDayInfo" resultMap="stockDayInfo" parameterType="java.util.Map">
+       select * from stock_day_Info where stock_code = #{stockCode} and trade_time = #{tradeTime}
+    </select>
 
 
 </mapper>
