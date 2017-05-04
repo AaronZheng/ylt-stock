@@ -1,6 +1,5 @@
 package com.spider.ylt.service.impl;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -53,12 +52,14 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 		if(StringUtils.isBlank(flagType.get(stockCode).getTimeStamp()) || !flagType.get(stockCode).getTimeStamp().equals(stockMinuteInfo.getTradeTime())){
 			flagType.get(stockCode).setTimeStamp(stockMinuteInfo.getTradeTime());
 			
-			if(flagType.get(stockCode).getMaxPrice() == null || flagType.get(stockCode).getLowPrice() == null ||
+			if(flagType.get(stockCode).getMaxPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() ==0.0 ||
+					flagType.get(stockCode).getLowPrice() == null ||flagType.get(stockCode).getLowPrice() == 0.0 ||
 					flagType.get(stockCode).getMaxPrice() < Double.parseDouble(content[4]) || flagType.get(stockCode).getLowPrice() > Double.parseDouble(content[5])){
 				middlePlateDataHandler(stockMinuteInfo,content);
 			}
 			
 			stockMinuteInfoDao.saveStockMinuteInfo(stockMinuteInfo);
+			flagType.get(stockCode).setClosePlatePrice(null);
 		}else{
 			if(flagType.get(stockCode).getClosePlatePrice() != null)
 				return;
@@ -70,15 +71,12 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 	
 	private void openPlateDataHandler(StockMinuteInfo stockMinuteInfo,String[] content){
 		try{
-			
-			StockDayInfo stockDayInfo = stockDayInfoDao.queryStockDayInfo(stockMinuteInfo.getStockCode(), new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+			StockDayInfo stockDayInfo = stockDayInfoDao.queryStockDayInfo(stockMinuteInfo.getStockCode(), content[30]);
 			String dayId = Sequeuce.genereateRandomStr();
 			StockDayFlag stockDayFlag = new StockDayFlag();
 			if(stockDayInfo != null){
-				stockDayInfo = new StockDayInfo();
-				stockDayFlag.setDayId(dayId);
+				stockDayFlag.setDayId(stockDayInfo.getId());
 				stockDayFlag.setOpenPlatePrice(stockDayInfo.getOpenPlatePrice());
-				stockDayFlag.setClosePlatePrice(stockDayInfo.getClosePlatePrice());
 				stockDayFlag.setyClosePlatePrice(stockDayInfo.getyClosePlatePrice());
 				stockDayFlag.setLowPrice(stockDayInfo.getLowPrice());
 				stockDayFlag.setMaxPrice(stockDayInfo.getMaxPrice());
@@ -89,21 +87,13 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 			stockDayFlag.setDayId(dayId);
 			stockDayInfo.setId(dayId);
 			stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
-			if(stockDayFlag.getOpenPlatePrice() == null){
-				stockDayFlag.setOpenPlatePrice(Double.parseDouble(content[1]));
-			}
+			stockDayFlag.setOpenPlatePrice(Double.parseDouble(content[1]));
 			stockDayInfo.setOpenPlatePrice(stockDayFlag.getOpenPlatePrice());
-			if(stockDayFlag.getyClosePlatePrice() == null){
-				stockDayFlag.setyClosePlatePrice(Double.parseDouble(content[2]));
-			}
+			stockDayFlag.setyClosePlatePrice(Double.parseDouble(content[2]));
 			stockDayInfo.setyClosePlatePrice(stockDayFlag.getyClosePlatePrice());
-			if(stockDayFlag.getMaxPrice() == null || stockDayFlag.getMaxPrice() < Double.parseDouble(content[4])){
-				stockDayFlag.setMaxPrice(Double.parseDouble(content[4]));
-			}
+			stockDayFlag.setMaxPrice(Double.parseDouble(content[4]));
 			stockDayInfo.setMaxPrice(stockDayFlag.getMaxPrice());
-			if(stockDayFlag.getLowPrice() == null || stockDayFlag.getLowPrice() > Double.parseDouble(content[5])){
-				stockDayFlag.setLowPrice(Double.parseDouble(content[5]));
-			}
+			stockDayFlag.setLowPrice(Double.parseDouble(content[5]));
 			stockDayInfo.setLowPrice(stockDayFlag.getLowPrice());
 			stockDayInfo.setDealStockNum(stockMinuteInfo.getTradeNum());
 			stockDayInfo.setDealStockPrice(stockMinuteInfo.getTradePrice());
@@ -113,7 +103,7 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 			stockDayInfoDao.saveStockDayInfo(stockDayInfo);
 			flagType.put(stockMinuteInfo.getStockCode(), stockDayFlag);
 		}catch(Exception e){
-			logger.error("¥¶¿Ì»’ ˝æ›“Ï≥£ stockInfo:{}",stockMinuteInfo,e);
+			logger.error("Â§ÑÁêÜÊó•Êï∞ÊçÆÂºÇÂ∏∏ stockInfo:{}",stockMinuteInfo,e);
 		}
 	}
 	
@@ -124,23 +114,17 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 		try{
 			stockDayInfo.setId(flagType.get(stockMinuteInfo.getStockCode()).getDayId());
 			stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getOpenPlatePrice() == null){
-				flagType.get(stockMinuteInfo.getStockCode()).setOpenPlatePrice(Double.parseDouble(content[1]));
-			}
+			flagType.get(stockMinuteInfo.getStockCode()).setOpenPlatePrice(Double.parseDouble(content[1]));
 			stockDayInfo.setOpenPlatePrice(flagType.get(stockMinuteInfo.getStockCode()).getOpenPlatePrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getClosePlatePrice() == null){
-				flagType.get(stockMinuteInfo.getStockCode()).setClosePlatePrice(stockMinuteInfo.getStockPrice());
-			}
+			flagType.get(stockMinuteInfo.getStockCode()).setClosePlatePrice(stockMinuteInfo.getStockPrice());
 			stockDayInfo.setClosePlatePrice(flagType.get(stockMinuteInfo.getStockCode()).getClosePlatePrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getyClosePlatePrice() == null){
-				flagType.get(stockMinuteInfo.getStockCode()).setyClosePlatePrice(Double.parseDouble(content[2]));
-			}
+			flagType.get(stockMinuteInfo.getStockCode()).setyClosePlatePrice(Double.parseDouble(content[2]));
 			stockDayInfo.setyClosePlatePrice(flagType.get(stockMinuteInfo.getStockCode()).getyClosePlatePrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() < Double.parseDouble(content[4])){
+			if(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == null ||flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == 0.0 || flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() < Double.parseDouble(content[4])){
 				flagType.get(stockMinuteInfo.getStockCode()).setMaxPrice(Double.parseDouble(content[4]));
 			}
 			stockDayInfo.setMaxPrice(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() > Double.parseDouble(content[5])){
+			if(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == null ||flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == 0.0 || flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() > Double.parseDouble(content[5])){
 				flagType.get(stockMinuteInfo.getStockCode()).setLowPrice(Double.parseDouble(content[5]));
 			}
 			stockDayInfo.setLowPrice(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice());
@@ -150,7 +134,7 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 			stockDayInfo.setYxbj("1");
 			stockDayInfoDao.updateStockDayInfo(stockDayInfo);
 		}catch(Exception e){
-			logger.error("¥¶¿Ì»’ ˝æ›“Ï≥£ stockInfo:{}",stockDayInfo,e);
+			logger.error("Â§ÑÁêÜÊó•Êï∞ÊçÆÂºÇÂ∏∏ stockInfo:{}",stockDayInfo,e);
 		}
 	}
 	
@@ -160,29 +144,29 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 		try{
 			stockDayInfo.setId(flagType.get(stockMinuteInfo.getStockCode()).getDayId());
 			stockDayInfo.setStockCode(stockMinuteInfo.getStockCode());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getOpenPlatePrice() == null){
-				flagType.get(stockMinuteInfo.getStockCode()).setOpenPlatePrice(Double.parseDouble(content[1]));
-			}
+			flagType.get(stockMinuteInfo.getStockCode()).setOpenPlatePrice(Double.parseDouble(content[1]));
 			stockDayInfo.setOpenPlatePrice(flagType.get(stockMinuteInfo.getStockCode()).getOpenPlatePrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getyClosePlatePrice() == null){
-				flagType.get(stockMinuteInfo.getStockCode()).setyClosePlatePrice(Double.parseDouble(content[2]));
-			}
+			flagType.get(stockMinuteInfo.getStockCode()).setyClosePlatePrice(Double.parseDouble(content[2]));
 			stockDayInfo.setyClosePlatePrice(flagType.get(stockMinuteInfo.getStockCode()).getyClosePlatePrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() < Double.parseDouble(content[4])){
+			if(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() == 0.0 ||
+					flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice() < Double.parseDouble(content[4])){
 				flagType.get(stockMinuteInfo.getStockCode()).setMaxPrice(Double.parseDouble(content[4]));
 			}
 			stockDayInfo.setMaxPrice(flagType.get(stockMinuteInfo.getStockCode()).getMaxPrice());
-			if(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() > Double.parseDouble(content[5])){
+			if(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == null || flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() == 0.0 ||
+					flagType.get(stockMinuteInfo.getStockCode()).getLowPrice() > Double.parseDouble(content[5])){
 				flagType.get(stockMinuteInfo.getStockCode()).setLowPrice(Double.parseDouble(content[5]));
 			}
 			stockDayInfo.setLowPrice(flagType.get(stockMinuteInfo.getStockCode()).getLowPrice());
+			flagType.get(stockMinuteInfo.getStockCode()).setClosePlatePrice(stockMinuteInfo.getStockPrice());
+			stockDayInfo.setClosePlatePrice(stockMinuteInfo.getStockPrice());
 			stockDayInfo.setDealStockNum(stockMinuteInfo.getTradeNum());
 			stockDayInfo.setDealStockPrice(stockMinuteInfo.getTradePrice());
 			stockDayInfo.setXgrq(new Date());
 			stockDayInfo.setYxbj("1");
 		stockDayInfoDao.updateStockDayInfo(stockDayInfo);
 		}catch(Exception e){
-			logger.error("¥¶¿Ì»’ ˝æ›“Ï≥£ stockInfo:{}",stockDayInfo,e);
+			logger.error("Â§ÑÁêÜÊó•Êï∞ÊçÆÂºÇÂ∏∏ stockInfo:{}",stockDayInfo,e);
 		}
 		
 	}
@@ -256,13 +240,13 @@ public class CollectMinuteDataServiceImpl implements ISchedulerTask{
 			try{
 				info = NetHandler.sendMessageToInternet(generateUrl(stockInfo.getStockCode(),stockInfo.getStockOrgCode()));
 				if(StringUtils.isBlank(info)||"\"\";".equals(info.trim().split("\\=")[1])){
-					logger.warn("Œ™ªÒ»°µΩ ˝æ› stockInfo:{}",info);
+					logger.warn("‰∏∫Ëé∑ÂèñÂà∞Êï∞ÊçÆ stockInfo:{}",info);
 					continue;
 				}
 				String[] content = info.split("=")[1].replace("\"", "").replace(" ", "").trim().split(",");
 				tradeDataHandler(stockInfo.getStockCode(),content,collectTime);
 			}catch(Exception e){
-				logger.error("¥¶¿Ì“Ï≥£stockInfo:{}",info,e);
+				logger.error("Â§ÑÁêÜÂºÇÂ∏∏stockInfo:{}",info,e);
 			}
 		}
 	}
