@@ -240,10 +240,11 @@
                 <artifactId>velocity-tools</artifactId>
                 <version>${velocity.tool.version}</version>
             </dependency>
-			            
-		        
 		
 	</dependencies>
 	</dependencyManagement>
   
+	<modules>
+		<module>ylt-view</module>
+	</modules>
 </project>

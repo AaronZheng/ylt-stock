@@ -32,6 +32,7 @@
     <update id="updateStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
        update stock_day_Info set 
 	               CLOSE_PLATE_PRICE = #{closePlatePrice},
+	               OPEN_PLATE_PRICE = #{openPlatePrice},
 	               MAX_PRICE = #{maxPrice},
 	               LOW_PRICE = #{lowPrice},
 	               DEAL_STOCK_NUM = #{dealStockNum},
