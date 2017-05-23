@@ -21,6 +21,11 @@
 	       <artifactId>ylt-common</artifactId>
 	       <version>1.0.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+	        <groupId>ylt-common-dao</groupId>
+			<artifactId>ylt-common-dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+        </dependency>
     
         <dependency>
 			<groupId>org.springframework</groupId>
