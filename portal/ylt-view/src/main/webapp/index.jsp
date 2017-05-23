@@ -17,43 +17,42 @@
 <body>
 	<div class="nav-container">
 		<nav class="nav-1">
-			<div class="container">
-				<div class="row">
-					<div class="col-xs-12">
-						<a href="https://eventn.com/" class="home-link"><img
-							alt="Logo"
-							src="resource/header-icon.png"
-							class="logo"></a>
-						<ul class="menu">
-							<li><a href="">股票基管理系统</a></li>
-							<li><a href="">通用查询系统</a></li>
-							<li class=""><a href="">股票分析系统</a>
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+					<a href="https://eventn.com/" class="home-link"><img alt="Logo"
+						src="resource/header-icon.png" class="logo"></a>
+					<ul class="menu">
+						<li><a href="">股票基管理系统</a></li>
+						<li><a href="">通用查询系统</a>
 							<ul class="">
-									<li><a
-										href="">Getting
-											Started Guide</a></li>
-									<li><a href="">User
-											Guide</a></li>
-									<li><a href="">REST
-											API</a></li>
-								</ul></li>
-							<li><a href="">股票模拟系统</a></li>
-							<li><a href="">股票大数据平台</a></li>
-							<li><a href="">关于我们</a></li>
+								<li><a href="/lowManyNum/initPage.do">低位放量</a></li>
+								<li><a href="">方差</a></li>
+								<li><a href="">标准差</a></li>
+							</ul></li>
+						<li class=""><a href="">股票分析系统</a>
+							<ul class="">
+								<li><a href="">Getting Started Guide</a></li>
+								<li><a href="">User Guide</a></li>
+								<li><a href="">REST API</a></li>
+							</ul></li>
+						<li><a href="">股票模拟系统</a></li>
+						<li><a href="">股票大数据平台</a></li>
+						<li><a href="">关于我们</a></li>
+					</ul>
+					<div class="text-right">
+						<ul class="social-links">
+							<li><a href="" target="_blank">登陆</a></li>
+							<li><a href="" target="_blank">注册</a></li>
 						</ul>
-						<div class="text-right">
-							<ul class="social-links">
-								<li><a href="" target="_blank">登陆</a></li>
-								<li><a href="" target="_blank">注册</a></li>
-							</ul>
-						</div>
 					</div>
 				</div>
 			</div>
-			<div class="mobile-toggle">
-				<div class="bar-1"></div>
-				<div class="bar-2"></div>
-			</div>
+		</div>
+		<div class="mobile-toggle">
+			<div class="bar-1"></div>
+			<div class="bar-2"></div>
+		</div>
 		</nav>
 	</div>
 	<div class="main-container">
