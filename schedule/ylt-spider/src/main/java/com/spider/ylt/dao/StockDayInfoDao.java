@@ -2,7 +2,8 @@ package com.spider.ylt.dao;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.spider.ylt.model.StockDayInfo;
+import com.common.ylt.model.StockDayInfo;
+
 
 public interface StockDayInfoDao {
 	

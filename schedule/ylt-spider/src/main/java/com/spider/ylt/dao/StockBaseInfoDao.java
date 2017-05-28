@@ -4,7 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import com.spider.ylt.model.StockInfo;
+import com.common.ylt.model.StockInfo;
+
 
 @Resource
 public interface StockBaseInfoDao {

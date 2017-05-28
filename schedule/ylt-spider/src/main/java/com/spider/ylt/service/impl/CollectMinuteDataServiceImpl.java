@@ -13,15 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import com.common.ylt.cache.Cache;
 import com.common.ylt.cache.KeyGenerator;
+import com.common.ylt.model.StockDayInfo;
+import com.common.ylt.model.StockInfo;
+import com.common.ylt.model.StockMinuteInfo;
 import com.common.ylt.net.NetHandler;
 import com.common.ylt.scheduler.processor.ISchedulerTask;
 import com.common.ylt.util.Sequeuce;
 import com.spider.ylt.dao.StockDayInfoDao;
 import com.spider.ylt.dao.StockMinuteInfoDao;
 import com.spider.ylt.model.StockDayFlag;
-import com.spider.ylt.model.StockDayInfo;
-import com.spider.ylt.model.StockInfo;
-import com.spider.ylt.model.StockMinuteInfo;
 
 
 public class CollectMinuteDataServiceImpl implements ISchedulerTask{

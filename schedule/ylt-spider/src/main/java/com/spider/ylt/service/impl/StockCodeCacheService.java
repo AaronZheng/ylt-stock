@@ -6,9 +6,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.common.ylt.cache.Cache;
 import com.common.ylt.cache.KeyGenerator;
+import com.common.ylt.model.StockInfo;
 import com.common.ylt.scheduler.processor.ISchedulerTask;
 import com.spider.ylt.dao.StockBaseInfoDao;
-import com.spider.ylt.model.StockInfo;
 
 public class StockCodeCacheService implements ISchedulerTask{
 	

@@ -1,6 +1,6 @@
 package com.spider.ylt.dao;
 
-import com.spider.ylt.model.StockMinuteInfo;
+import com.common.ylt.model.StockMinuteInfo;
 
 public interface StockMinuteInfoDao {
 	
