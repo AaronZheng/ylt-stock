@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.common.ylt.model.LowManyNumInfo;
 
-public interface StockMinuteInfoDao {
+public interface StockDayInfoDao {
 	
 	
 	/**

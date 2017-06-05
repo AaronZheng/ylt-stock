@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.spider.ylt.dao.StockMinuteInfoDao">
 
-    <resultMap id="stockMinuteInfo" type="com.spider.ylt.model.StockMinuteInfo">
+    <resultMap id="stockMinuteInfo" type="com.common.ylt.model.StockMinuteInfo">
         <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
         <result column="STOCK_PRICE" property="stockPrice" jdbcType="DOUBLE"/>
@@ -35,7 +35,7 @@
         <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
     </resultMap>
     
-   <!-- <insert id="saveStockMinuteInfo" parameterType="com.spider.ylt.model.StockMinuteInfo">
+   <!-- <insert id="saveStockMinuteInfo" parameterType="com.common.ylt.model.StockMinuteInfo">
        insert into STOCK_MINUTE_INFO(
 	       ID,
 	        STOCK_CODE,
@@ -71,7 +71,7 @@
        )
     </insert> -->
     
-    <insert id="saveStockMinuteInfo" parameterType="com.spider.ylt.model.StockMinuteInfo">
+    <insert id="saveStockMinuteInfo" parameterType="com.common.ylt.model.StockMinuteInfo">
        insert into STOCK_MINUTE_INFO(
 	       ID,
 	       STOCK_CODE,

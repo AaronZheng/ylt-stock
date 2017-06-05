@@ -1,6 +1,6 @@
 package com.view.ylt.controller;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +24,15 @@ public class LowManyNumController {
 	
 	private LowManyNumSerivce lowManyNumService;
 	
+	private ThreadLocal<SimpleDateFormat> format = new ThreadLocal<SimpleDateFormat>(){
+
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		@Override
+		public SimpleDateFormat get() {
+			return format;
+		}
+	};
+	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping("/initPage.do")
@@ -38,10 +47,11 @@ public class LowManyNumController {
 	@ResponseBody
 	public YLTResponse<?> queryLowManyNum(@RequestParam("lowPrice")double lowPrice,@RequestParam("hightPrice")double hightPrice,
                                      			 @RequestParam("numType")int numType,@RequestParam("stockType")int stockType,@RequestParam("variance")double variance,
-			                                     @RequestParam("times")int times,@RequestParam("startTime")Date startTime,@RequestParam("calcDate")Date calcDate){
+			                                     @RequestParam("times")int times,@RequestParam("startTime")String startTime,@RequestParam("calcDate")String calcDate){
 		
 		try{
-			List<LowManyNumInfo> lowManyNumInfos = lowManyNumService.queryLowManyNumData(lowPrice, hightPrice, numType, stockType, variance, times, startTime, calcDate);
+			List<LowManyNumInfo> lowManyNumInfos = lowManyNumService.queryLowManyNumData(lowPrice, hightPrice, numType, stockType, variance, times, 
+					format.get().parse(startTime), format.get().parse(calcDate));
 			Map<String,Object> map = new HashMap<String,Object>();
 			map.put("total", lowManyNumInfos == null ? 0 : lowManyNumInfos.size());
 			map.put("rows", lowManyNumInfos);

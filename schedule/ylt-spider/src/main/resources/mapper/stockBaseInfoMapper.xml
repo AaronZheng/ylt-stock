@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.spider.ylt.dao.StockBaseInfoDao">
 
-    <resultMap id="stockInfo" type="com.spider.ylt.model.StockInfo">
+    <resultMap id="stockInfo" type="com.common.ylt.model.StockInfo">
         <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
         <result column="STOCK_NAME" property="stockName" jdbcType="VARCHAR"/>
         <result column="BLOCK_ID" property="blockId" jdbcType="VARCHAR"/>

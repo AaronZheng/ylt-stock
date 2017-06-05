@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.spider.ylt.dao.StockDayInfoDao">
 
-    <resultMap id="stockDayInfo" type="com.spider.ylt.model.StockDayInfo">
+    <resultMap id="stockDayInfo" type="com.common.ylt.model.StockDayInfo">
         <result column="ID" property="id" jdbcType="VARCHAR"/>
         <result column="STOCK_CODE" property="stockCode" jdbcType="VARCHAR"/>
         <result column="OPEN_PLATE_PRICE" property="openPlatePrice" jdbcType="DOUBLE"/>
@@ -20,7 +20,7 @@
         <result column="YXBJ" property="yxbj" jdbcType="VARCHAR"/>
     </resultMap>
     
-    <insert id="saveStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
+    <insert id="saveStockDayInfo" parameterType="com.common.ylt.model.StockDayInfo">
     
         insert into stock_day_Info(ID,STOCK_CODE,OPEN_PLATE_PRICE,CLOSE_PLATE_PRICE,
 		                   Y_CLOSE_PLATE_PRICE,MAX_PRICE,LOW_PRICE,DEAL_STOCK_NUM,
@@ -29,7 +29,7 @@
                           #{yClosePlatePrice},#{maxPrice},#{lowPrice},#{dealStockNum},#{dealStockPrice},#{tradeTime},#{lrrq},#{yxbj})
     </insert>
     
-    <update id="updateStockDayInfo" parameterType="com.spider.ylt.model.StockDayInfo">
+    <update id="updateStockDayInfo" parameterType="com.common.ylt.model.StockDayInfo">
        update stock_day_Info set 
 	               CLOSE_PLATE_PRICE = #{closePlatePrice},
 	               OPEN_PLATE_PRICE = #{openPlatePrice},

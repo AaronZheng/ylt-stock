@@ -7,14 +7,17 @@
     <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap-table.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrapValidator.min.css">
     <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="<%=request.getContextPath()%>/bootstrap/css/bootstrap-datepicker.min.css">
     <script src="<%=request.getContextPath()%>/bootstrap/js/jquery.min.js"></script>
     <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap.min.js"></script>
     <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap-table.min.js"></script>
     <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap-table-zh-CN.min.js"></script>
     <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrapValidator.min.js"></script>
     <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap-select.min.js"></script>
-    <script type="text/javascript">
+    <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap-datepicker.min.js"></script>
+    <script src="<%=request.getContextPath()%>/bootstrap/js/bootstrap-datepicker.zh-CN.min.js"></script>
 
+    <script type="text/javascript">
        var status = "";
        var currentPageSize = 10;
        var windowPageSize = 10;
@@ -24,25 +27,45 @@
        function checkStatus(status){
            this.status = status;
        }
+       
+       Date.prototype.Format = function (fmt) { //author: meizz 
+    	    var o = {
+    	        "M+": this.getMonth() + 1, //月份 
+    	        "d+": this.getDate(), //日 
+    	        "h+": this.getHours(), //小时 
+    	        "m+": this.getMinutes(), //分 
+    	        "s+": this.getSeconds(), //秒 
+    	        "S": this.getMilliseconds() //毫秒 
+    	    };
+    	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+    	    for (var k in o)
+    	    if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+    	    return fmt;
+    	}
 
-       var content = new Array();
 
-       function queryCarrierOrderDetail(row){
-           $("#historyModel").modal('show');
-           var data = JSON.parse(content[row]);
-           var tableContent = "<table class='table'><tr><th>物流公司</th><td>"+data.carrierName+"</td></tr>"+
-                              "<tr><th>发货地</th><td>"+data.sendProvinceName+data.sendCityName+data.sendCountyName+data.sendTownName+"</td></tr>"+
-                              "<tr><th>收货地</th><td>"+data.deliveredProvinceName+data.deliveredCityName+data.deliveredCountyName+data.deliveredTownName+"</td></tr>"+
-                              "<tr><th>时效天数</th><td>"+data.standardRule+"（天）</td></tr>"+
-                              "<tr><th>样本总单量</th><td>"+data.num+"</td></tr>"+
-                              "<tr><th>样本分布</th><td>"+data.timeClass+"</td></tr></table>"
-
-           document.getElementById("historyTable").innerHTML=tableContent;
-
-       }
+       $(document).ready(function(){
+     	  
+   		  var calcDate = new Date();
+        //  document.getElementById("calcDate").value=calcDate.Format("yyyy-MM-dd");
+    	   
+     	  $(".form_date").datepicker({
+               language: "zh-CN",
+               autoclose: true,//选中之后自动隐藏日期选择框
+               clearBtn: true,//清除按钮
+               todayBtn: true,//今日按钮
+               endDate:new Date(),
+               todayHighlight:true,
+               initialDate:calcDate.Format("yyyy-MM-dd"),
+               format: "yyyy-mm-dd"
+           });
+     	  
+     
+     	  
+       });
 
       $(document).ready(function(){
-
+    	  
           $('#enableCarrierRouteTable').bootstrapTable({
               method: 'get',
               height : 400,
@@ -60,23 +83,7 @@
               sortOrder: "asc",
               pageSize: 10,
               pageList: [10, 25, 50, 100],
-              url: "<%=request.getContextPath()%>/promiseEffctQuery/queryCarrierTm.json",
-              queryParams: function(params) {
-                  content = null;
-                  return {
-                      startRow : params.offset,
-                      pageSize : params.limit,
-                      sendProvinceId:document.getElementById("sendProvince").value,
-                      sendCityId:document.getElementById("sendCity").value,
-                      sendCountyId:document.getElementById("sendCounty").value,
-                      sendTownId:document.getElementById("sendTown").value,
-                      desProvinceId:document.getElementById("desProvince").value,
-                      desCityId:document.getElementById("desCity").value,
-                      desCountyId:document.getElementById("desCounty").value,
-                      desTownId:document.getElementById("desTown").value
-                  };
-              },
-              sidePagination: "server",
+              sidePagination: "client",
               search: false,
               strictSearch: true,
               responseHandler : function(res) {
@@ -109,37 +116,29 @@
 
       });
 
-        function queryIsSignCarrier(){
-            var sendCounty = document.getElementById("sendCounty").value;
-            if(sendCounty == null || sendCounty == ""){
-                alert("发货地址需要选到三级");
-                return ;
-            }
-            var desCounty = document.getElementById("desCounty").value;
-            if(desCounty == null || desCounty == ""){
-                alert("收货地址需要选到三级");
-                return ;
-            }
-            var sendProvince = document.getElementById("sendProvince").value;
-            var sendCity = document.getElementById("sendCity").value;
-            var sendTown = document.getElementById("sendTown").value;
-            var desProvince = document.getElementById("desProvince").value;
-            var desCity = document.getElementById("desCity").value;
-            var desTown = document.getElementById("desTown").value;
+        function queryLowNum(){
+            var numType = document.getElementById("numType").value;
+            var stockType = document.getElementById("stockType").value;
+            var priceRange = document.getElementById("priceRange").value;
+            var variance = document.getElementById("variance").value;
+            var numTimes = document.getElementById("numTimes").value;
+            var startTime = document.getElementById("startTime").value;
+            var calcDate = document.getElementById("calcDate").value;
+            
+            var range = priceRange.split("-");
             $.ajax({
                 type: "GET",
-                url: "<%=request.getContextPath()%>/promiseEffctQuery/queryCarrierTm.json",
+                url: "<%=request.getContextPath()%>/lowManyNum/queryLowManyNum.json",
                 contentType: "application/x-www-form-urlencoded; charset=utf-8",
                 data: {
-                    sendProvinceId:sendProvince,
-                    sendCityId:sendCity,
-                    sendCountyId:sendCounty,
-                    sendTownId:sendTown,
-                    desProvinceId:desProvince,
-                    desCityId:desCity,
-                    desCountyId:desCounty,
-                    desTownId:desTown,
-                    pageSize:currentPageSize
+                	numType:numType,
+                	stockType:stockType,
+                	lowPrice:range[0],
+                	variance:variance,
+                	hightPrice:range[1],
+                	times:numTimes,
+                	startTime:startTime,
+                	calcDate:calcDate
                 },
                 dataType: "json",
                 success: function(data){
@@ -149,98 +148,15 @@
         }
 
 
-
-       function clearData(node){
-           if(node == "sendProvince") {
-               $("#sendCity").empty();
-               $("#sendCity").append("<option value=''>请选择</option>");
-               $("#sendCity").selectpicker('render');
-               $("#sendCity").selectpicker('refresh');
-
-               $("#sendCounty").empty();
-               $("#sendCounty").append("<option value=''>请选择</option>");
-               $("#sendCounty").selectpicker('render');
-               $("#sendCounty").selectpicker('refresh');
-
-               $("#sendTown").empty();
-               $("#sendTown").append("<option value=''>请选择</option>");
-               $("#sendTown").selectpicker('render');
-               $("#sendTown").selectpicker('refresh');
-           }else if(node == "sendCity"){
-               $("#sendCounty").empty();
-               $("#sendCounty").append("<option value=''>请选择</option>");
-               $("#sendCounty").selectpicker('render');
-               $("#sendCounty").selectpicker('refresh');
-
-               $("#sendTown").empty();
-               $("#sendTown").append("<option value=''>请选择</option>");
-               $("#sendTown").selectpicker('render');
-               $("#sendTown").selectpicker('refresh');
-           }else if(node == "sendCounty"){
-               $("#sendTown").empty();
-               $("#sendTown").append("<option value=''>请选择</option>");
-               $("#sendTown").selectpicker('render');
-               $("#sendTown").selectpicker('refresh');
-           }else if(node == "desProvince"){
-               $("#desCity").empty();
-               $("#desCity").append("<option value=''>请选择</option>");
-               $("#desCity").selectpicker('render');
-               $("#desCity").selectpicker('refresh');
-
-               $("#desCounty").empty();
-               $("#desCounty").append("<option value=''>请选择</option>");
-               $("#desCounty").selectpicker('render');
-               $("#desCounty").selectpicker('refresh');
-
-               $("#desTown").empty();
-               $("#desTown").append("<option value=''>请选择</option>");
-               $("#desTown").selectpicker('render');
-               $("#desTown").selectpicker('refresh');
-           }else if(node == "desCity"){
-               $("#desCounty").empty();
-               $("#desCounty").append("<option value=''>请选择</option>");
-               $("#desCounty").selectpicker('render');
-               $("#desCounty").selectpicker('refresh');
-
-               $("#desTown").empty();
-               $("#desTown").append("<option value=''>请选择</option>");
-               $("#desTown").selectpicker('render');
-               $("#desTown").selectpicker('refresh');
-           }else if(node == "desCounty"){
-               $("#desTown").empty();
-               $("#desTown").append("<option value=''>请选择</option>");
-               $("#desTown").selectpicker('render');
-               $("#desTown").selectpicker('refresh');
-           }
-       }
-
-        function getChildNode(currentNode,childNode){
-            var areaId  = document.getElementById(currentNode).value;
-            clearData(currentNode);
-            $.ajax({
-                type: "GET",
-                url: "<%=request.getContextPath()%>/carrierRoute/quereyAddressInfo.json",
-                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-                data: {
-                    addressCode : areaId
-                },
-                dataType: "json",
-                success: function(data){
-                    var tempAjax;
-                    if(data == null || data == "")
-                            return;
-                    data = JSON.parse(data);
-                    tempAjax = "<option value=''>请选择</option>";
-                    for(var i = 0; i< data.length; i++)
-                        tempAjax += "<option value='"+data[i].areaId+"'>"+data[i].areaName+"</option>";
-                    $("#"+childNode+"").empty();
-                    $("#"+childNode+"").append(tempAjax);
-                    $("#"+childNode+"").selectpicker('render');
-                    $("#"+childNode+"").selectpicker('refresh');
-                }
-            });
+        
+        function openCal(){
+        	$('.form_date').datepicker('show');
         }
-
+        
+        function removeCal(){
+        	$('.form_date').datepicker('remove');
+        }
+        
     </script>
     <style>
         .table {
@@ -257,7 +173,7 @@
                 <td>
                  <div class="input-group">
                     <span class="input-group-addon" style="font-size: smaller">放量方式</span>
-                    <select class="selectpicker form-control" data-live-search="true" id="sendProvince" style="margin-left: 4px;font-size: smaller;" onchange="getChildNode('sendProvince','sendCity')">
+                    <select class="selectpicker form-control" data-live-search="true" id="numType" style="margin-left: 4px;font-size: smaller;">
                         <option value="1">低横突</option>
                         <option value="2">震荡突</option>
                     </select>
@@ -265,39 +181,56 @@
                 </td>
                 <td>
                     <div class="input-group" style="margin-left: 10px;" >
-                                <span class="input-group-addon" style="font-size: smaller;">范围</span>
-                                <select class="selectpicker form-control" data-live-search="true"  id="desProvince" style="margin-left: 4px;" onchange="getChildNode('desProvince','desCity')">
-                                    <option value="1">沪深主</option>
-                                    <option value="2">沪A</option>
-                                    <option value="3">沪主</option>
-                                    <option value="4">全部</option>
-                                </select>
-                            </div>
+                        <span class="input-group-addon" style="font-size: smaller;">范围</span>
+                        <select class="selectpicker form-control" data-live-search="true"  id="stockType" style="margin-left: 4px;" >
+                            <option value="1">沪深主</option>
+                            <option value="2">沪A</option>
+                            <option value="3">沪主</option>
+                            <option value="4">全部</option>
+                        </select>
+                    </div>
                 </td>
                 
                  <td>
-                  <div class="input-group" style="margin-left: 10px;" >
-                    <span class="input-group-addon">价格区间</span>
-                    <input name = "carrierId" id="carrierId"  type="number" style="width: 150px;"  class="form-control" placeholder="计算开始时间">
-                </div>
+	                <div class="input-group" style="margin-left: 10px;" >
+	                    <span class="input-group-addon">价格区间</span>
+	                    <input name = "priceRange" id="priceRange"  type="text" style="width: 80px;" value="10-40"  class="form-control">
+	                </div>
                 </td>
                 
+                  <td>
+	                <div class="input-group" style="margin-left: 10px;" >
+	                    <span class="input-group-addon">放量倍数</span>
+	                    <input name = "numTimes" id="numTimes" value="4"  type="number" style="width: 80px;" value="10-40"  class="form-control">
+	                </div>
+                 </td>
+                 
+                 <td>
+	                <div class="input-group" style="margin-left: 10px;" >
+	                    <span class="input-group-addon">方差</span>
+	                    <input name = "variance" id="variance"  type="number" value="0.5" style="width: 80px;" value="10-40"  class="form-control">
+	                </div>
+                 </td>
+                
                 <td>
-                  <div class="input-group" style="margin-left: 10px;" >
-                    <span class="input-group-addon">计算开始时间</span>
-                    <input name = "carrierId" id="carrierId"  type="number" style="width: 150px;"  class="form-control" placeholder="计算开始时间">
+                  <div class="input-group" style="margin-left: 10px;">  
+                            <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy年mm月dd日" data-link-field="dtp_input2" data-link-format="yyyy年mm月dd日" >  
+                                <span class="input-group-addon">开始计算</span>
+                                <input id="startTime" class="form-control" style="width: 120px;" readonly="true"/>  
+                            </div>  
+                        </div>  
+                </td>
+                <td>
+                  <div class="input-group" style="margin-left: 10px;">
+                      <div class="input-group date form_date col-md-3" data-date="" data-date-format="yyyy年mm月dd日" data-link-field="dtp_input2" data-link-format="yyyy年mm月dd日" >  
+                          <span class="input-group-addon">计算点</span>
+                          <input id="calcDate" class="form-control" style="width: 120px;" readonly="true"/>  
+                      </div>  
                 </div>
                 </td>
                 <td>
-                  <div class="input-group" style="margin-left: 10px;" >
-                    <span class="input-group-addon">计算点</span>
-                    <input name = "carrierId" id="carrierId"  type="number" style="width: 150px;"  class="form-control" placeholder="计算开始时间">
-                </div>
+                    <button type="button" class="btn btn-primary" style="margin-left: 20px;" onclick="queryLowNum()">查询</button>
                 </td>
-                <td>
-                    <button type="button" class="btn btn-primary" style="margin-left: 40px;" onclick="queryIsSignCarrier()">查询</button>
-                </td>
-                <td></td>
             </tr>
         </table>
     </div>
@@ -320,7 +253,6 @@
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
-</div>
 </div>
 
 

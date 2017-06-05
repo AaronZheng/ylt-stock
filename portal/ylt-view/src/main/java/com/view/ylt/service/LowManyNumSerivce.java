@@ -3,12 +3,15 @@ package com.view.ylt.service;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.common.ylt.model.LowManyNumInfo;
-import com.dao.common.ylt.StockMinuteInfoDao;
+import com.dao.common.ylt.StockDayInfoDao;
 
 public class LowManyNumSerivce {
 	
-	private StockMinuteInfoDao stockMinuteInfoDao;
+	@Autowired
+	private StockDayInfoDao stockDayInfoDao;
 	
 	
 	
@@ -19,9 +22,9 @@ public class LowManyNumSerivce {
 		hightPrice = hightPrice == 0.0 ? 50 : hightPrice;
 		List<LowManyNumInfo> lowManyNumInfos = null;
 		if(numType == 0){
-			lowManyNumInfos = stockMinuteInfoDao.analysisAlwaysLowManyNum(lowPrice, hightPrice, stockType, variance, times, startTime, calcDate);
+			lowManyNumInfos = stockDayInfoDao.analysisAlwaysLowManyNum(lowPrice, hightPrice, stockType, variance, times, startTime, calcDate);
 		}else{
-			lowManyNumInfos = stockMinuteInfoDao.analysisUpAndDownManyNum(lowPrice, hightPrice, stockType, variance, times, startTime, calcDate);
+			lowManyNumInfos = stockDayInfoDao.analysisUpAndDownManyNum(lowPrice, hightPrice, stockType, variance, times, startTime, calcDate);
 		}
 		return lowManyNumInfos;
 	}
